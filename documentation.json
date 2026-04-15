@@ -1,5 +1,5 @@
 {
-  "name": "Safereport",
+  "name": "SpeakSafely",
   "colors": {
     "light": {
       "brand": "#F325A9"
@@ -121,5 +121,6 @@
         ]
       }
     ]
-  }
+  },
+  "title": "SpeakSafely"
 }
