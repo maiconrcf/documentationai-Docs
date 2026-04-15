@@ -1,0 +1,181 @@
+---
+title: Integrations and Connections
+description: Connect Safereport with third-party tools to enhance your reporting workflow and ensure seamless data flow.
+---
+
+## Overview
+
+Safereport supports seamless integrations with popular communication apps, webhooks for custom notifications, and compliance systems. These connections enable automated workflows, real-time alerts, and synchronized data across your tools.
+
+<Callout kind="info">
+  Enable integrations from your Safereport dashboard under `Settings > Integrations`. Generate API keys and configure endpoints as needed.
+</Callout>
+
+<Columns cols={3}>
+  <Card title="Communication Apps" icon="message-circle" href="#communication">
+    Connect Slack and WhatsApp for instant report notifications.
+  </Card>
+  <Card title="Webhooks" icon="zap" href="#webhooks">
+    Set up automated payloads to your custom endpoints.
+  </Card>
+  <Card title="HR Systems" icon="users" href="#hr-systems">
+    Sync reports with compliance and HR platforms.
+  </Card>
+</Columns>
+
+## Communication App Integrations
+
+Integrate Safereport with Slack and WhatsApp to receive real-time notifications about new reports.
+
+<Tabs>
+  <Tab title="Slack" icon="message-circle">
+    <Steps>
+      <Step title="Create Slack App" icon="settings">
+        Visit [api.slack.com/apps](https://api.slack.com/apps) and create a new app. Add the Incoming Webhooks scope.
+      </Step>
+      <Step title="Get Webhook URL" icon="link">
+        Activate Incoming Webhooks and copy the generated URL.
+      </Step>
+      <Step title="Configure in Safereport" icon="upload">
+        In Safereport dashboard, paste the Slack webhook URL into `Integrations > Slack`.
+      </Step>
+    </Steps>
+
+    ```javascript
+    // Example Slack payload sent by Safereport
+    {
+      "text": "New anonymous report received",
+      "attachments": [{
+        "title": "Report #123",
+        "fields": [
+          { "title": "Category", "value": "Harassment" },
+          { "title": "Status", "value": "New" }
+        ]
+      }]
+    }
+    ```
+  </Tab>
+  <Tab title="WhatsApp" icon="phone">
+    Use Twilio or official WhatsApp Business API for integration.
+
+    <Steps>
+      <Step title="Set Up WhatsApp API" icon="settings">
+        Create a WhatsApp Business account and obtain your phone number ID and access token.
+      </Step>
+      <Step title="Add Endpoint in Safereport" icon="link">
+        Enter your WhatsApp webhook URL in Safereport settings.
+      </Step>
+    </Steps>
+
+    <Callout kind="tip">
+      Test the integration by submitting a sample report to verify message delivery.
+    </Callout>
+  </Tab>
+</Tabs>
+
+## Setting Up Webhooks
+
+Webhooks allow Safereport to push real-time data to your servers when events occur, such as new reports or status updates.
+
+<Steps>
+  <Step title="Create Webhook Endpoint" icon="server">
+    Expose a secure HTTPS endpoint on your server (e.g., `https://your-webhook-url.com/safereport`).
+  </Step>
+  <Step title="Configure in Dashboard" icon="settings">
+    Navigate to `Settings > Webhooks`, add your URL, and select events like `report.created` or `report.updated`.
+  </Step>
+  <Step title="Verify Signature" icon="shield">
+    Validate incoming requests using the `X-Safereport-Signature` header and your secret key.
+  </Step>
+</Steps>
+
+Verify payloads with these examples:
+
+<Request tabs="JavaScript,Python" show-lines="true">
+  ```javascript
+  const express = require('express');
+  const app = express();
+  app.use(express.raw({type: 'application/json'}));
+
+  app.post('/safereport', (req, res) => {
+    console.log('Payload:', req.body.toString());
+    res.status(200).send('OK');
+  });
+  ```
+  ```python
+  from flask import Flask, request
+
+  app = Flask(__name__)
+
+  @app.route('/safereport', methods=['POST'])
+  def webhook():
+      data = request.data
+      print('Payload:', data)
+      return 'OK', 200
+  ```
+</Request>
+
+<Response tabs="report.created,report.updated">
+  ```json
+  {
+    "event": "report.created",
+    "report_id": "rep_abc123",
+    "category": "fraud",
+    "status": "new",
+    "timestamp": "2024-10-15T10:30:00Z"
+  }
+  ```
+
+  ```json
+  {
+    "event": "report.updated",
+    "report_id": "rep_abc123",
+    "status": "in_review",
+    "assigned_to": "user_456",
+    "timestamp": "2024-10-15T11:00:00Z"
+  }
+  ```
+</Response>
+
+## Connecting to HR and Compliance Systems
+
+Sync Safereport data with tools like BambooHR, Workday, or custom compliance databases.
+
+<Columns cols={2}>
+  <Card title="BambooHR" icon="users" horizontal>
+    Use Zapier or direct API sync to push report data to employee records.
+  </Card>
+  <Card title="Custom HR API" icon="database" horizontal>
+    Configure webhooks to update your internal systems automatically.
+  </Card>
+</Columns>
+
+<Expandable title="Advanced Synchronization" default-open="false">
+  For two-way sync, implement OAuth2 authentication:
+
+  ```javascript
+  const axios = require('axios');
+
+  async function syncReport(reportId) {
+    const token = await getOAuthToken();
+    await axios.post('https://hr.example.com/reports', {
+      safereport_id: reportId,
+      status: 'new'
+    }, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+  }
+  ```
+
+  Monitor sync status in Safereport logs.
+</Expandable>
+
+## Best Practices
+
+- Always use HTTPS endpoints for webhooks to ensure data security.
+- Implement retry logic for failed deliveries (Safereport retries up to 3 times).
+- Test integrations in a staging environment before production.
+
+<Callout kind="alert">
+  Rotate webhook secrets regularly and restrict IP access to Safereport's known ranges (`<185.0.0.0/8>`, `<103.0.0.0/8>`).
+</Callout>

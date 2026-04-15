@@ -1,0 +1,158 @@
+---
+title: Quick Start Guide
+description: Set up your Safereport account and make your first report in minutes, ensuring a smooth onboarding experience.
+---
+
+## Prerequisites
+
+<Callout kind="info">
+
+Before starting, ensure you have:
+
+- A valid email address for your organization
+- Organization details ready (name, address, contact info)
+- Admin access to configure channels like web portal or WhatsApp
+
+This quick start takes about 5 minutes.
+
+</Callout>
+
+## Create and Verify Your Organization Account
+
+Follow these steps to set up your Safereport organization.
+
+<Steps>
+  <Step title="Sign Up" icon="user-plus">
+
+Visit `https://app.safereport.com/register` and create your admin account.
+
+Fill in your organization name, email, and password. Safereport sends a verification email immediately.
+
+  </Step>
+
+  <Step title="Verify Email" icon="mail">
+
+Check your inbox for the verification link from Safereport.
+
+Click the link to activate your account. This enables organization dashboard access.
+
+  </Step>
+
+  <Step title="Complete Organization Profile" icon="settings">
+
+Log in at `https://app.safereport.com/login`.
+
+Navigate to Organization Settings and add details like address and compliance info (LGPD, ISO 37002).
+
+  </Step>
+</Steps>
+
+## Configure Initial Reporting Channels
+
+Safereport supports multiple channels. Start with web portal and WhatsApp for quick setup.
+
+<Tabs>
+  <Tab title="Web Portal" icon="globe">
+
+Enable the default web portal at `https://report.safereport.com/{your-org-id}`.
+
+In dashboard:
+
+1. Go to Channels > Web Portal
+2. Set custom domain if needed
+3. Customize welcome message
+
+Reports arrive instantly in your dashboard.
+
+  </Tab>
+
+  <Tab title="WhatsApp" icon="message-circle">
+
+Connect WhatsApp Business API:
+
+````bash
+# Add your WhatsApp number in Channels > WhatsApp
+# Safereport provides the webhook URL: https://api.safereport.com/webhooks/whatsapp/{your-org-id}
+npm install @whapi/whatsapp-client  # Optional SDK
+````
+
+Users message `+55 11 99999-9999` (your number) to report anonymously.
+
+  </Tab>
+
+  <Tab title="800 Hotline" icon="phone">
+
+Request a free 0800 number from Safereport support.
+
+Configure IVR prompts in dashboard for anonymous reporting.
+
+  </Tab>
+</Tabs>
+
+## Submit Your First Anonymous Report
+
+Test the system with a sample report.
+
+<Steps>
+  <Step title="Access Report Form" icon="external-link">
+
+Open your web portal: `https://report.safereport.com/{your-org-id}`.
+
+Fill the form:
+
+- Subject: `Test Report`
+- Description: `This is a test anonymous report to verify setup.`
+- Category: `General`
+
+Leave reporter details anonymous.
+
+  </Step>
+
+  <Step title="Submit and Verify" icon="check-circle">
+
+Submit the report.
+
+Check your dashboard > Reports. The test report appears with timestamp and status `New`.
+
+  </Step>
+</Steps>
+
+<Callout kind="success">
+
+Congratulations! Your first report is live. Safereport ensures full anonymity and encryption.
+
+</Callout>
+
+## Next Steps
+
+<Columns cols={2}>
+  <Card title="Explore Features" icon="zap" href="/authentication">
+    Dive into advanced authentication, custom workflows, and integrations.
+  </Card>
+
+  <Card title="Compliance Guide" icon="shield" href="/configuration">
+    Learn LGPD, ISO 37002 setup and audit trails.
+  </Card>
+
+  <Card title="Integrations" icon="plug" href="/guides">
+    Connect Slack, email, and APIs for seamless reporting.
+  </Card>
+
+  <Card title="Support" icon="help-circle" href="/faq">
+    FAQs, troubleshooting, and contact support.
+  </Card>
+</Columns>
+
+<Expandable title="Troubleshooting Common Issues" default-open="false">
+
+**Report not appearing?**
+
+- Check channel status in dashboard
+- Verify webhook URLs for WhatsApp
+- Ensure `{your-org-id}` matches your settings
+
+**Email verification failed?**
+
+Contact support@safereport.com with your signup email.
+
+</Expandable>

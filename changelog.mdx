@@ -1,0 +1,104 @@
+---
+title: Changelog
+description: Track the latest updates, improvements, and new features released in Safereport.
+---
+
+## Stay Up to Date
+
+Safereport releases updates regularly to enhance security, usability, and compliance features for your whistleblower and ombudsman channels. Review changes below to understand impacts on your integration and usage.
+
+<Callout kind="info">
+  Subscribe to our RSS feed or join the Safereport community Discord for real-time notifications on new releases.
+</Callout>
+
+## Recent Releases
+
+<Update label="2024-10-15" description="v1.2.0" tags={["feature", "improvement"]}>
+
+## New Features
+
+- Added WhatsApp integration for anonymous reporting channels, enabling seamless mobile access.
+- Introduced customizable intake forms with conditional logic for better data collection.
+- New dashboard analytics for tracking report resolution times and trends.
+
+## Improvements
+
+- Enhanced anonymity protections with improved IP masking and session isolation.
+- Optimized API response times by `>30%` for high-volume environments.
+- Updated compliance checklists to align with latest ISO 37002 guidelines.
+
+## Bug Fixes
+
+- Fixed occasional duplicate report entries during concurrent submissions.
+- Resolved authentication token refresh issues in long-running sessions.
+
+</Update>
+
+<Update label="2024-09-20" description="v1.1.0" tags={["feature", "bugfix"]}>
+
+## New Features
+
+- Support for 0800 phone channel with automated transcription and case routing.
+- Email reporting now includes attachment handling up to 10MB.
+- Bulk user import via CSV for enterprise teams.
+
+## Bug Fixes
+
+- Corrected portal web form validation errors on mobile browsers.
+- Patched potential XSS vulnerabilities in custom notification templates.
+- Fixed search indexing delays in report archives.
+
+## Deprecations
+
+- Legacy v0.x webhook endpoints deprecated; migrate to v1 endpoints by 2024-12-01.
+
+</Update>
+
+<Update label="2024-08-10" description="v1.0.0" tags={["breaking", "feature"]}>
+
+## Initial Release
+
+- Core whistleblower platform with web portal, API, and admin dashboard.
+- Full LGPD and Lei 14.457 compliance features.
+- Anonymous reporting with multi-channel support (web, email).
+
+## Breaking Changes
+
+- Initial authentication requires `{API_KEY}` header instead of query params.
+
+</Update>
+
+## Upcoming Features
+
+<Columns cols={2}>
+  <Card title="AI-Powered Triage" icon="zap" href="/guides/ai-triage">
+    Automatically categorize and prioritize incoming reports using machine learning.
+  </Card>
+  <Card title="Advanced Analytics" icon="bar-chart-3" href="/guides/analytics">
+    Predictive insights and custom report exports for compliance audits.
+  </Card>
+</Columns>
+
+<Expandable title="Migration Guide for v1.1.0+" default-open="true">
+  Update your integration with the new webhook format:
+
+  ```javascript
+  // Old webhook payload (deprecated)
+  // { reportId: 123, status: "new" }
+
+  // New webhook payload
+  const webhookPayload = {
+    id: "rep_abc123",
+    status: "pending_review",
+    channel: "whatsapp",
+    timestamp: "2024-10-15T10:00:00Z",
+    metadata: { priority: "high" }
+  };
+  ```
+
+  Test migrations in our sandbox environment at `https://sandbox-api.safereport.com`.
+</Expandable>
+
+<Callout kind="tip">
+  Found a bug or have feedback? Create an issue on GitHub or contact support@safereport.com.
+</Callout>
